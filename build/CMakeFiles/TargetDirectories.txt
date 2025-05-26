@@ -1,0 +1,2 @@
+/home/nancy/Projects/raytracer/build/CMakeFiles/edit_cache.dir
+/home/nancy/Projects/raytracer/build/CMakeFiles/rebuild_cache.dir

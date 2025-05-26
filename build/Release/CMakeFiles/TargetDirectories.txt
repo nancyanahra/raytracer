@@ -1,0 +1,3 @@
+/home/nancy/Projects/raytracer/build/Release/CMakeFiles/inOneWeekend.dir
+/home/nancy/Projects/raytracer/build/Release/CMakeFiles/edit_cache.dir
+/home/nancy/Projects/raytracer/build/Release/CMakeFiles/rebuild_cache.dir
