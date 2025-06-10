@@ -1,9 +1,9 @@
-#ifndef RAY_H
-#ifndef RAY_H
+#ifndef RAY_HPP
+#define RAY_HPP
 
-#include "vec3.h"
+#include "vec3.hpp"
 
-class ray {
+	class ray {
 	public:
 		ray() {}
 		
@@ -18,6 +18,6 @@ class ray {
 		private:
 			point3 orig;
 			vec3 dir;
-			};
+		};
 
 #endif

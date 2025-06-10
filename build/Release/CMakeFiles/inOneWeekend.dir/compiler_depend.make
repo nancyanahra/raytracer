@@ -195,7 +195,8 @@ CMakeFiles/inOneWeekend.dir/main.cpp.o: /home/nancy/Projects/raytracer/main.cpp 
   /usr/include/c++/12/bits/basic_ios.tcc \
   /usr/include/c++/12/bits/ostream.tcc \
   /usr/include/c++/12/istream \
-  /usr/include/c++/12/bits/istream.tcc
+  /usr/include/c++/12/bits/istream.tcc \
+  /home/nancy/Projects/raytracer/ray.hpp
 
 
 /usr/include/c++/12/bits/basic_ios.tcc:
@@ -573,6 +574,8 @@ CMakeFiles/inOneWeekend.dir/main.cpp.o: /home/nancy/Projects/raytracer/main.cpp 
 /usr/include/c++/12/bits/postypes.h:
 
 /usr/include/x86_64-linux-gnu/bits/cpu-set.h:
+
+/home/nancy/Projects/raytracer/ray.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
