@@ -3,7 +3,63 @@
 #include "ray.hpp"
 #include <iostream>
 
+
+double hit_sphere(const point3& center, double radius, const ray& r){
+
+	// solving for t in the ray-sphere intersection gives values for a, b, an dc
+	// this oc vector goes from the origin of the ray to the center of the sphere
+	vec3 oc = center - r.origin();
+	// a = d ⋅ d
+	// a vector dotted with itself = squared length of that vector
+	auto a = r.direction().length_squared();
+	//b = -2d ⋅ (C - Q), but we simplify the ray-sphere intersection
+	// with the line below
+	auto h = dot(r.direction(), oc);
+	//c = (C - Q) ⋅ (C - Q)
+	auto c = oc.length_squared() - radius*radius;
+	auto discriminant = h*h -a*c;
+	
+	if (discriminant < 0){
+	
+		// sphere does not get hit
+		return -1.0;
+
+	} else { 
+		// sphere gets at least hit at a tangent or goes through it
+		// this returns the points where the sphere gets hit
+		return (h - std::sqrt(discriminant) )/a;
+	
+	}
+
+}
+
+
+
+
+
 color ray_color(const ray& r){
+		
+	// t calculates the points the sphere 
+	// is getting hit at, if it does get hit
+	auto t = hit_sphere(point3(0,0,-1), 0.5, r);
+	// if it is getting hit, then find the 
+	// surface normal (unit vector) at that point
+	// to get the outward normal: subtract the ray 
+	// thats going from spheres center to the point 
+	// on the sphere FROM the direction of the hit point
+	if (t > 0.0) {
+		vec3 N = unit_vector(r.at(t) - vec3(0,0,-1));
+		
+		//RGB goes from 0 to 1.
+		// vectors range from -1 to 1
+		//convert normalized color so that
+		// -1 -> 0
+		//  0 -> 0.5
+		// +1 -> 1
+		return 0.5*color(N.x()+1, N.y()+1,N.z()+1);
+	
+	}
+	
 	vec3 unit_direction = unit_vector(r.direction());
 	auto a = 0.5*(unit_direction.y() + 1.0);
 	return  (1.0 - a)*color(1.0,1.0,1.0) + a*color(0.5,0.7,1.0);
