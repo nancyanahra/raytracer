@@ -11,6 +11,26 @@
 	        //our hit will only count if this t is: t_min < t < t_max
 	        double t;
 	        
+	        bool front_face;
+	        
+	        void set_face_normal(const ray& r, const vec3& outward_normal){
+	        
+	            // sets the hit record normal vector
+	            // note: the parameter 'outward_normal' is assumed to have unit length
+	            
+	            // angle > 90 deg , so ray direction and 
+	            //outward surface normal point in opposite directions
+	            // so true if ray is hitting the outside surface of sphere
+	            front_face = dot(r.direction(), outward_normal) < 0;
+	            // normal otherwise points inward towards sphere if ray dir and surf norm 
+	            // point in same direction
+	            normal = front_face ? outward_normal : -outward_normal;
+	            
+	            }
+
+	        
+	        }
+	        
     };
 
     class hittable {
