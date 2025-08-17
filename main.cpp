@@ -1,8 +1,7 @@
-#include "color.hpp"
-#include "vec3.hpp"
-#include "ray.hpp"
-#include <iostream>
-
+#include "rtweekend.hpp"
+#include "hittable.hpp"
+#include "hittable_list.hpp"
+#include "sphere.hpp"
 
 double hit_sphere(const point3& center, double radius, const ray& r){
 
@@ -33,47 +32,48 @@ double hit_sphere(const point3& center, double radius, const ray& r){
 
 }
 
-
-
-
-
-color ray_color(const ray& r){
+color ray_color(const ray& r, const hittable& world){
 		
-	// t calculates the points the sphere 
-	// is getting hit at, if it does get hit
-	auto t = hit_sphere(point3(0,0,-1), 0.5, r);
-	// if it is getting hit, then find the 
-	// surface normal (unit vector) at that point
-	// to get the outward normal: subtract the ray 
-	// thats going from spheres center to the point 
-	// on the sphere FROM the direction of the hit point
-	if (t > 0.0) {
-		vec3 N = unit_vector(r.at(t) - vec3(0,0,-1));
-		
-		//RGB goes from 0 to 1.
-		// vectors range from -1 to 1
-		//convert normalized color so that
-		// -1 -> 0
-		//  0 -> 0.5
-		// +1 -> 1
-		return 0.5*color(N.x()+1, N.y()+1,N.z()+1);
+	hit_record rec;
 	
+	// does ray r intersect with any object in the world?
+	if (world.hit(r,0,infinity,rec)){
+	    // then color that part of the object by its surface normal 
+	    // according to which direction it faces
+	    //RGB goes from 0 to 1.
+	    // vectors range from -1 to 1
+	    //convert normalized color so that
+	    // -1 -> 0
+	    //  0 -> 0.5
+	    // +1 -> 1
+	    return 0.5 * (rec.normal + color(1,1,1));
 	}
-	
+	// otherwise, just color the sky the usual gradient blue color.
 	vec3 unit_direction = unit_vector(r.direction());
 	auto a = 0.5*(unit_direction.y() + 1.0);
+			
 	return  (1.0 - a)*color(1.0,1.0,1.0) + a*color(0.5,0.7,1.0);
 }
 
 int main() {
 
 
-    // image height must be >= 1
+    // Image
 	auto aspect_ratio = 16.0 / 9.0;
 	int image_width = 400;
 
+    // image height must be >= 1
 	int image_height = int(image_width / aspect_ratio);
 	image_height= (image_height < 1) ? 1 : image_height;
+
+    // World
+    
+    // this is just a list of hittable objects.
+    hittable_list world;
+    
+    world.add(make_shared<sphere>(point3(0,0,-1), 0.5)); // our main "hittable: sphere
+    
+    world.add(make_shared<sphere>(point3(0,-100.5,-1),100)); // green sphere "representing earth"
 
 	//camera
 	auto focal_length = 1.0;
@@ -110,7 +110,7 @@ int main() {
 		auto ray_direction = pixel_center - camera_center;
 		ray r(camera_center, ray_direction);
 		
-		color pixel_color = ray_color(r);
+		color pixel_color = ray_color(r, world);
            	 write_color(std::cout, pixel_color);
         }
 

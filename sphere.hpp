@@ -2,9 +2,10 @@
 #define SPHERE_HPP
 
 #include "hittable.hpp"
-#include "vec3.hpp"
 
 class sphere : public hittable {
+
+
 
     public:
         sphere(const point3& center, double radius) : center(center), radius(std::fmax(0, radius)) {}
@@ -32,7 +33,7 @@ class sphere : public hittable {
             // find nearest root (hittable surface) that lies in the acceptable range.
             // is the first root within the range?
             auto root = (h-sqrtd)/a;
-            if (root <= ray_tmin || ray|tmax <= root){
+            if (root <= ray_tmin || ray_tmax <= root){
                 //if the first one isnt, is the second root in range?
                 root = (h+sqrtd)/a;
                 if (root <=ray_tmin || ray_tmax <= root)
@@ -46,6 +47,11 @@ class sphere : public hittable {
             //point of intersection
             rec.p = r.at(rec.t);
 
+            // true that it is getting hit, then find the 
+	        // surface normal (unit vector) at that point
+	        // to get the outward normal: subtract the ray 
+	        // thats going from spheres center to the point 
+	        // on the sphere FROM the direction of the hit point
             vec3 outward_normal = (rec.p - center) / radius;
             rec.set_face_normal(r, outward_normal);
             

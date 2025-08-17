@@ -1,7 +1,6 @@
 #ifndef HITTABLE_HPP
 #define HITTABLE_HPP
 
-#include "ray.hpp"
 
     class hit_record {
 
@@ -29,7 +28,7 @@
 	            }
 
 	        
-	        }
+	        
 	        
     };
 
@@ -38,6 +37,7 @@
         public:
             virtual ~hittable() = default;
             
+            // (abstract base class (interface) to be implemented by any object derived off hittable
             virtual bool hit(const ray& r, double ray_tmin, double ray_tmax, hit_record& rec) const = 0;
          
 

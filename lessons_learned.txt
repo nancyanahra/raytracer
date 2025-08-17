@@ -1,0 +1,6 @@
+page 37 of pdf version
+
+we first started off by implementing "ray_color" to be hardcoded, first getting the quadratic solution for "t" for a sphere that was hit,
+and then if t was a valid quadratic solution, we can compute the normal right then and there, as well as shade it according to the correct color range.
+
+In our refactored version, we have made an abstracted base class "hittable" and made a sphere derive off that. we moved the logic for RAY INTERSECTION and surface normal computation to the sphere object class. though we still make the logic for coloring the sphere (at that point) in the ray_color method.

@@ -1,9 +1,5 @@
-#ifndef VEC3_H
-#define VEC3_H
-
-#include <cmath>
-#include <iostream>
-
+#ifndef VEC3_HPP
+#define VEC3_HPP
 class vec3 {
 	public:
 		double e[3];
