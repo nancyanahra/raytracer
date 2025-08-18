@@ -38,7 +38,7 @@
             virtual ~hittable() = default;
             
             // (abstract base class (interface) to be implemented by any object derived off hittable
-            virtual bool hit(const ray& r, double ray_tmin, double ray_tmax, hit_record& rec) const = 0;
+            virtual bool hit(const ray& r, interval ray_t, hit_record& rec) const = 0;
          
 
     };
