@@ -120,7 +120,15 @@ class camera {
 	            // -1 -> 0
 	            //  0 -> 0.5
 	            // +1 -> 1
-	            return 0.5 * (rec.normal + color(1,1,1));
+	            //return 0.5 * (rec.normal + color(1,1,1));
+	            
+	            
+	            vec3 direction = random_on_hemisphere(rec.normal);
+	            //the constant multipler represents the light absorption
+	            //(albedo / reflectance) for the material. 1 means 100% of light is refelcted
+	            // 0 would mean the surface reflects all the light
+	            // 0.5 means the surface reflects 50% and absorbs 50%
+	            return 0.5*ray_color(ray(rec.p,direction),world);
 	        }
 	        // otherwise, just color the sky the usual gradient blue color.
 	        vec3 unit_direction = unit_vector(r.direction());

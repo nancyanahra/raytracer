@@ -60,7 +60,7 @@ class vec3 {
 		    return vec3(random_double(),random_double(), random_double());
 		}
 		static vec3 random(double min, double max){
-		    return vec3(random_double(min,max), random_double(min,max),random_double(min,max);
+		    return vec3(random_double(min,max), random_double(min,max),random_double(min,max));
 		}
 
 };
@@ -142,19 +142,34 @@ inline vec3 unit_vector(const vec3& v){
 	
 inline vec3 random_unit_vector(){
 
+// keep rejecting bad samples until we get a good sample
     while(true){
-        //create a random vector inside a unit sphere
+        //pick a random point inside the cube surrounding the unit sphere
         auto p= vec3::random(-1,1);
+        //calculates the squuared length of the vector p
         auto lensq = p.length_squared();
         
         //accept the vector if it  falls inside or on the unit sphere
-        if(lensq <=1){
+        if(1e-160 < lensq && lensq <=1){
             return p/sqrt(lensq);
         }
     
     }
 
 }
+
+inline vec3 random_on_hemisphere(const vec3& normal){
+    // if the random unit vector generated was in the same hemisphere as the normal
+    // just return that. otherwise, invert it.
+    vec3 on_unit_sphere = random_unit_vector();
+    if (dot(on_unit_sphere, normal) >0.0){
+        return on_unit_sphere;
+    } else {
+        return -on_unit_sphere;
+    }
+
+}
+
 	
 #endif
 
