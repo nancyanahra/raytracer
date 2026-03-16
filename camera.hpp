@@ -10,6 +10,7 @@ class camera {
         double aspect_ratio = 1.0; // Ratio of image width over height
         int image_width = 100; // Rendered image width in pixel count
         int samples_per_pixel = 10; // Count of random samples for each pixel
+        int max_depth = 10; //max number of ray bounces into scence
     
         /* public camera parameters here */
         void render(const hittable& world){
@@ -27,7 +28,7 @@ class camera {
             color pixel_color(0,0,0);
             for (int sample = 0; sample < samples_per_pixel; sample++){
                 ray r = get_ray(i,j);
-                pixel_color += ray_color(r,world);
+                pixel_color += ray_color(r,max_depth,world);
             }
             write_color(std::cout, pixel_samples_scale * pixel_color);
 
@@ -106,8 +107,11 @@ class camera {
             return vec3(random_double() - 0.5, random_double() - 0.5, 0);
         }
         
-        color ray_color(const ray& r, const hittable& world) const {
+        color ray_color(const ray& r, int depth, const hittable& world) const {
         
+        // if we have exceeded the ray bounce limit, then no more light is gathred
+            if (depth <= 0)
+                return color (0,0,0);
             hit_record rec;
 	
 	        // does ray r intersect with any object in the world?
@@ -123,12 +127,12 @@ class camera {
 	            //return 0.5 * (rec.normal + color(1,1,1));
 	            
 	            
-	            vec3 direction = random_on_hemisphere(rec.normal);
+	            vec3 direction = random_on_hemisphere(rec.normal);	          
 	            //the constant multipler represents the light absorption
 	            //(albedo / reflectance) for the material. 1 means 100% of light is refelcted
 	            // 0 would mean the surface reflects all the light
 	            // 0.5 means the surface reflects 50% and absorbs 50%
-	            return 0.5*ray_color(ray(rec.p,direction),world);
+	            return 0.5*ray_color(ray(rec.p,direction),depth-1,world);
 	        }
 	        // otherwise, just color the sky the usual gradient blue color.
 	        vec3 unit_direction = unit_vector(r.direction());
