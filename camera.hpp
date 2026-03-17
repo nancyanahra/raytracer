@@ -115,7 +115,8 @@ class camera {
             hit_record rec;
 	
 	        // does ray r intersect with any object in the world?
-	        if (world.hit(r,interval(0,infinity),rec)){
+	        // get rid of shadow acne problem by adding tolerance val
+	        if (world.hit(r,interval(0.001,infinity),rec)){
 	            // then color that part of the object by its surface normal 
 	            // according to which direction it faces
 	            //RGB goes from 0 to 1.
