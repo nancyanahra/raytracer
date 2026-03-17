@@ -127,8 +127,10 @@ class camera {
 	            // +1 -> 1
 	            //return 0.5 * (rec.normal + color(1,1,1));
 	            
-	            
-	            vec3 direction = random_on_hemisphere(rec.normal);	          
+	            // UNIFORM HEMISPHERE SCATTERING DIFFUSION
+	            //vec3 direction = random_on_hemisphere(rec.normal);
+	            // LAMBERTIAN REFLECTION
+            	vec3 direction = rec.normal + random_unit_vector();          
 	            //the constant multipler represents the light absorption
 	            //(albedo / reflectance) for the material. 1 means 100% of light is refelcted
 	            // 0 would mean the surface reflects all the light
