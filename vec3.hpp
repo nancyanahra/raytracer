@@ -179,6 +179,13 @@ inline vec3 random_on_hemisphere(const vec3& normal){
 
 }
 
+inline vec3 reflect(const vec3& v, const vec3& n){
+    // get the reflected ray direction, which is just
+    // incoming array plus the negated
+    // dot product of the vertical component to the surface normal
+    return v - 2*dot(v,n)*n;
+}
+
 	
 #endif
 

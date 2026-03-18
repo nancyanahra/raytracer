@@ -3,6 +3,7 @@
 #include "hittable_list.hpp"
 #include "camera.hpp"
 #include "sphere.hpp"
+#include "material.hpp"
 
 double hit_sphere(const point3& center, double radius, const ray& r){
 
@@ -40,12 +41,19 @@ int main() {
     
     // this is just a list of hittable objects.
     hittable_list world;
-    
-    world.add(make_shared<sphere>(point3(0,0,-1), 0.5)); // our main "hittable: sphere
-    
-    world.add(make_shared<sphere>(point3(0,-100.5,-1),100)); // green sphere "representing earth"
+   
 
+    // color takes in rgb vals
+    auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
+    auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
+    auto material_left   = make_shared<metal>(color(0.8, 0.8, 0.8));
+    auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2));
 
+    //spheres take in a point as center, radius, and a material type
+    world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_ground));
+    world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.2),   0.5, material_center));
+    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, material_left));
+    world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
     camera cam;
     
   

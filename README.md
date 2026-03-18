@@ -12,7 +12,7 @@ $ cmake --build build/Release
 to run
 
 ```shell
-$ build\Release\inOneWeekend > image.ppm
+$ ./build\Release\inOneWeekend > image.ppm
 ```
 
 view 
